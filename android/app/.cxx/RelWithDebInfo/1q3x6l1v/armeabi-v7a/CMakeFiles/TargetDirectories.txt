@@ -1,0 +1,2 @@
+C:/Users/ADNAN/OneDrive/Desktop/New folder (2)/newthijar/android/app/.cxx/RelWithDebInfo/1q3x6l1v/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/ADNAN/OneDrive/Desktop/New folder (2)/newthijar/android/app/.cxx/RelWithDebInfo/1q3x6l1v/armeabi-v7a/CMakeFiles/rebuild_cache.dir

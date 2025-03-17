@@ -1,0 +1,248 @@
+// ignore_for_file: library_private_types_in_public_api
+
+import 'package:enefty_icons/enefty_icons.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newthijar/view/top_bar/top_bar.dart';
+
+class EstimateQuotaion extends StatefulWidget {
+  const EstimateQuotaion({super.key});
+
+  @override
+  _EstimateQuotaionState createState() => _EstimateQuotaionState();
+}
+
+class _EstimateQuotaionState extends State<EstimateQuotaion> {
+  String selectedFilter = "All";
+  List<String> filters = ["All", "Open Orders", "Closed Orders"];
+  String? selectedParty;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 185,
+            child: TopBar(
+              page: "Estimate / Quotation",
+            ),
+          ),
+          Positioned(
+            top: 150,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  )),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: filters.map((filter) {
+                        bool isSelected = selectedFilter == filter;
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: SizedBox(
+                            height: 32,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  selectedFilter = filter;
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: isSelected
+                                    ? const Color.fromARGB(255, 6, 50, 115)
+                                    : Colors.white,
+                                side: const BorderSide(
+                                    color: Color.fromARGB(255, 6, 50, 115)),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                              ),
+                              child: Text(
+                                filter,
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: isSelected
+                                      ? Colors.white
+                                      : const Color.fromARGB(255, 6, 50, 115),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 12),
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 14),
+                      ),
+                      hint: const Text("Select Party"),
+                      value: selectedParty,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedParty = value;
+                        });
+                      },
+                      items: ["Party A", "Party B", "Party C"].map((party) {
+                        return DropdownMenuItem(
+                          value: party,
+                          child: Text(party),
+                        );
+                      }).toList(),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: 5,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(12),
+                              // boxShadow: [
+                              //   BoxShadow(
+                              //     color: Colors.black12,
+                              //     blurRadius: 4,
+                              //     offset: Offset(0, 2),
+                              //   ),
+                              // ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text("Abcd",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    const Column(
+                                      children: [
+                                        Text(
+                                          "1",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          "Date: 2025-02-07",
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                      ],
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.more_vert,
+                                          color: Colors.grey),
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                ),
+                                const Divider(),
+                                const SizedBox(height: 8),
+                                const Text(
+                                  "6546.0",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const Divider(),
+                                const SizedBox(height: 8),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Balance: 6546.5",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromARGB(255, 6, 50, 115),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color.fromARGB(
+                                            255, 6, 50, 115),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 8),
+                                      ),
+                                      child: const Text("Convert to Sale",
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Container(
+        height: 50.h,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+            backgroundColor: const Color.fromARGB(255, 6, 50, 115),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+          onPressed: () {},
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                EneftyIcons.add_outline,
+                color: Colors.white,
+              ),
+              SizedBox(width: 8.w),
+              const Text(
+                "Add Purchase Order",
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
