@@ -46,16 +46,21 @@ class ItemSettingScreen extends StatelessWidget {
                     children: [
                       _buildToggleRow(
                         "Item Type",
-                        true,
                       ),
-                      _buildToggleRow(
-                        "Barcode Scanning for item",
-                        true,
+                      Obx(
+                        () => _buildToggleRow(
+                          "Barcode Scanning for item",
+                          controller: controller.enableItemScanner.value,
+                          onTap: () {
+                            controller.enableItemScanner.value =
+                                !controller.enableItemScanner.value;
+                            controller.itemSettingsChange();
+                          },
+                        ),
                       ),
                       Obx(
                         () => _buildToggleRow(
                           "Item Code/Bar Code",
-                          true,
                           controller: controller.enableItemCode.value,
                           onTap: () {
                             controller.enableItemCode.value =
@@ -67,7 +72,6 @@ class ItemSettingScreen extends StatelessWidget {
                       Obx(
                         () => _buildToggleRow(
                           "Item Category",
-                          true,
                           controller: controller.enableItemCategory.value,
                           onTap: () {
                             controller.enableItemCategory.value =
@@ -79,7 +83,6 @@ class ItemSettingScreen extends StatelessWidget {
                       Obx(
                         () => _buildToggleRow(
                           "HSN/SAC Code",
-                          true,
                           controller: controller.enableItemHsn.value,
                           onTap: () {
                             controller.enableItemHsn.value =
@@ -91,7 +94,6 @@ class ItemSettingScreen extends StatelessWidget {
                       Obx(
                         () => _buildToggleRow(
                           "Item Wise Discount",
-                          true,
                           controller: controller.enableItemDiscount.value,
                           onTap: () {
                             controller.enableItemDiscount.value =
@@ -102,12 +104,10 @@ class ItemSettingScreen extends StatelessWidget {
                       ),
                       _buildToggleRow(
                         "Manufacturing",
-                        false,
                       ),
                       Obx(
                         () => _buildToggleRow(
                           "MRP",
-                          true,
                           controller: controller.enableItemMrp.value,
                           onTap: () {
                             controller.enableItemMrp.value =
@@ -118,11 +118,10 @@ class ItemSettingScreen extends StatelessWidget {
                       ),
                       _buildToggleRow(
                         "Default Unit",
-                        false,
                       ),
-                      _buildToggleRow("Party Wise Item Rate", false,
+                      _buildToggleRow("Party Wise Item Rate",
                           icon: EneftyIcons.crown_2_bold),
-                      _buildToggleRow("Wholesale Price", false,
+                      _buildToggleRow("Wholesale Price",
                           icon: EneftyIcons.crown_2_bold),
                       plusMinusRow(
                         "Quantity (Upto Decimal places)",
@@ -144,9 +143,15 @@ class ItemSettingScreen extends StatelessWidget {
                           await controller.itemSettingsChange();
                         },
                       ),
-                      _buildToggleRow("Item Wise Tax", true),
-                      _buildToggleRow("Update Sale Price from TXN", true),
-                      _buildToggleRow("Additional CESS", true),
+                      _buildToggleRow(
+                        "Item Wise Tax",
+                      ),
+                      _buildToggleRow(
+                        "Update Sale Price from TXN",
+                      ),
+                      _buildToggleRow(
+                        "Additional CESS",
+                      ),
                     ],
                   ),
                 ),
@@ -158,7 +163,7 @@ class ItemSettingScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildToggleRow(String label, bool enabled,
+  Widget _buildToggleRow(String label,
       {bool? controller, IconData? icon, Function()? onTap}) {
     return GestureDetector(
       onTap: onTap,

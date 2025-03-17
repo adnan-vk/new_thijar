@@ -12,6 +12,7 @@ import 'package:newthijar/view/pdf_page/pdf_screen.dart';
 import 'package:newthijar/view/purchase/payment_out/payment_out.dart';
 import 'package:newthijar/view/purchase/purchase_bill/purchase_bil.dart';
 import 'package:newthijar/view/purchase/purchase_order/purchase_order.dart';
+import 'package:newthijar/view/purchase/purchase_return/purchase_return.dart';
 import 'package:newthijar/view/sale/estimate_quotaion/estimate_quotaion.dart';
 import 'package:newthijar/view/sale/payment_in/payment_in.dart';
 import 'package:newthijar/view/sale/sale_invoice/sale_invoice.dart';
@@ -236,7 +237,9 @@ class TransactionCard extends StatelessWidget {
                                 controller.customerTxtCont.text ==
                                     object?.partyName;
                                 controller.selectedIndex.value =
-                                    object?.invoiceType == "Credit" ? 0 : 1;
+                                    object?.invoiceType == "Credit"
+                                        ? false
+                                        : true;
                                 controller.currentRecivedAmountController.text =
                                     ((object?.totalAmount ?? 0) -
                                             (double.parse(object?.balanceAmount
@@ -422,9 +425,7 @@ void showPurchasePopup(
     {
       'icon': EneftyIcons.back_square_outline,
       'label': 'Purchase Return',
-      'onTap': () => Get.to(() {
-            //  const PurchaseReturnListScreen();
-          }),
+      'onTap': () => Get.to(() => const PurchaseReturn()),
     },
     if (enablePurchaseOrder.value == true)
       {

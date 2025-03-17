@@ -15,10 +15,13 @@ class ItemSettingController extends GetxController {
   RxBool gstTaxEnabled = false.obs;
   RxBool vatTaxEnabled = false.obs;
   RxBool enableItemCode = false.obs;
+  RxBool enableItemScanner = false.obs;
   RxBool enableItemCategory = false.obs;
   RxBool enableItemHsn = false.obs;
   RxBool enableItemDiscount = false.obs;
   RxBool enableItemMrp = false.obs;
+  // RxnNum quantityNotifier = RxnNum(1);
+  // RxnNum priceNotifier = RxnNum(1);
   final ValueNotifier<num> quantityNotifier = ValueNotifier<num>(1);
   final ValueNotifier<num> priceNotifier = ValueNotifier<num>(1);
 
@@ -50,6 +53,7 @@ class ItemSettingController extends GetxController {
       enableItemMrp: enableItemMrp.value,
       priceNotifier: priceNotifier.value,
       quantityNotifier: quantityNotifier.value,
+      enableItemScanner: enableItemScanner.value,
     );
   }
 
@@ -59,6 +63,7 @@ class ItemSettingController extends GetxController {
     bool? enableItemHsn,
     bool? enableItemDiscount,
     bool? enableItemMrp,
+    bool? enableItemScanner,
     num? quantityNotifier,
     num? priceNotifier,
   }) async {
@@ -73,6 +78,7 @@ class ItemSettingController extends GetxController {
       "enableItemMrp": enableItemMrp,
       "quantityDecimalPlaces": quantityNotifier,
       "commonDecimalPlaces": priceNotifier,
+      "enableItemScanner": enableItemScanner,
     };
 
     var response = await apiServices.putJsonData(
@@ -87,7 +93,7 @@ class ItemSettingController extends GetxController {
       setLoadingValue(false);
       if (CheckRStatus.checkResStatus(statusCode: response.statusCode)) {
         fetchSettingData();
-        SnackBars.showSuccessSnackBar(text: "Successfully Setting Saved");
+        // SnackBars.showSuccessSnackBar(text: "Successfully Setting Saved");
       }
     }
     setLoadingValue(false);
@@ -96,13 +102,6 @@ class ItemSettingController extends GetxController {
   void updatedGstType({
     bool? isGst,
     bool? isVat,
-    bool? enableItemCode,
-    bool? enableItemCategory,
-    bool? enableItemHsn,
-    bool? enableItemDiscount,
-    bool? enableItemMrp,
-    num? quantityNotifier,
-    num? priceNotifier,
   }) async {
     log("Updating settings with: Quantity: $quantityNotifier, Price: $priceNotifier");
 
@@ -114,7 +113,7 @@ class ItemSettingController extends GetxController {
 
     var response = await apiServices.putJsonData(
       authToken: await SharedPreLocalStorage.getToken(),
-      endUrl: "settings/item",
+      endUrl: "settings/tax",
       data: data,
     );
 
@@ -151,6 +150,7 @@ class ItemSettingController extends GetxController {
           enableItemDiscount.value = data.enableItemDiscount ?? false;
           enableItemHsn.value = data.enableItemHsn ?? false;
           enableItemMrp.value = data.enableItemMrp ?? false;
+          enableItemScanner.value = data.enableItemScanner ?? false;
           priceNotifier.value = data.commonDecimalPlaces ?? 1;
           quantityNotifier.value = data.quantityDecimalPlaces ?? 1;
         }

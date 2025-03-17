@@ -28,6 +28,7 @@ import 'package:newthijar/shared_preference/shared_preference.dart';
 import 'package:newthijar/urls/end_urls/end_urls.dart';
 import 'package:newthijar/utils/is_respons_ok.dart';
 import 'package:newthijar/view/add_bank_screen/add_bank_screen.dart';
+import 'package:newthijar/view/home_page/sub_screen/add_sale_scree.dart/add_sale.dart';
 import 'package:newthijar/view/home_page/widgets/item_card_widget.dart';
 import 'package:newthijar/view/pdf_page/pdf_screen.dart';
 import 'package:newthijar/view/sale/sub_screen/add_sale_invoice_screen/add_sale_invoice_screen.dart';
@@ -73,8 +74,8 @@ class TransactionDetailController extends GetxController {
   var isMRPEnabled = true.obs;
 
   RxString isTaxOrNo = 'Without Tax'.obs;
-  RxInt selectedIndex = 0.obs;
-  RxString selectedSaleType = 'Credit'.obs;
+  RxBool selectedIndex = false.obs;
+  RxString selectedSaleType = 'Cash'.obs;
   var unitModel = UnitModel().obs;
   var invoiceNo = InvoiceNoModel().obs;
   var saleDetailModel = SaleDetailModel().obs;
@@ -153,7 +154,7 @@ class TransactionDetailController extends GetxController {
 
   //fetch godown names
   final itemLocationCont = TextEditingController();
-  var selectedLocation = ''.obs; // Initialize with an empty string
+  var selectedLocation = 'Main Godown'.obs; // Initialize with an empty string
   var locationList = ['Error', 'Error'].obs;
   RxList<Datas> allGodowns = <Datas>[].obs;
   RxList<String> godownNames = <String>[].obs;
@@ -165,8 +166,8 @@ class TransactionDetailController extends GetxController {
       allGodowns.value = await _service.fetchGodowns();
 
       // Ensure godownNames updates correctly
-      godownNames
-          .assignAll(allGodowns.map((godown) => godown.id).whereType<String>());
+      godownNames.assignAll(
+          allGodowns.map((godown) => godown.name).whereType<String>());
 
       // Ensure locationList updates correctly
       locationList.assignAll(godownNames);
@@ -277,11 +278,11 @@ class TransactionDetailController extends GetxController {
     totalPrice.value = 0.0;
   }
 
-  void setSaleFormType(index) {
-    if (index == 0) {
-      selectedSaleType.value = 'Credit';
+  void setSaleFormType() {
+    if (selectedIndex.value == false) {
+      selectedSaleType.value = "Cash";
     } else {
-      selectedSaleType.value = 'Cash';
+      selectedSaleType.value = 'Credit';
     }
   }
 
@@ -989,7 +990,9 @@ class TransactionDetailController extends GetxController {
           calculateTotalAmount();
           _calculateGrandTotal();
           // List<Item> items = model.items!.toList();
-          Get.to(() => const AddSaleInvoiceScreen());
+          Get.to(
+            () => AddSalePage(),
+          );
         }
       }
 

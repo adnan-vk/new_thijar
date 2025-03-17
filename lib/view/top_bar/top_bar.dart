@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:developer';
+
 import 'package:enefty_icons/enefty_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +17,8 @@ class TopBar extends StatelessWidget {
   final Repository repository = Repository();
   String? balance;
   String? page;
-  TopBar({super.key, this.balance, this.page});
+  var saleController;
+  TopBar({super.key, this.balance, this.page, this.saleController});
 
   @override
   Widget build(BuildContext context) {
@@ -100,12 +103,14 @@ class TopBar extends StatelessWidget {
               page == "Business Profile" ||
               page == "Purchase Bill" ||
               page == "Payment In" ||
+              page == "Payment Out" ||
               page == "Purchase Order" ||
               page == "Sale Order" ||
               page == "Estimate / Quotation" ||
               page == "Expense" ||
               page == "Sale Invoice" ||
-              page == "Strock Transfer")
+              page == "Strock Transfer" ||
+              page == "Purchase Return")
             Column(
               children: [
                 const SizedBox(height: 20),
@@ -135,50 +140,56 @@ class TopBar extends StatelessWidget {
                       ],
                     ),
                     if (page == "Sale")
-                      Row(
-                        children: [
-                          const Text(
-                            'Credit',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Container(
-                            width: 50, // Adjust width to match the image
-                            height: 30, // Adjust height to match the image
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Colors.white, width: 2),
-                            ),
-                            child: Transform.scale(
-                              scale:
-                                  0.8, // Adjust scale to fit the container nicely
-                              child: Switch(
-                                value:
-                                    false, // Change this to a variable if you need dynamic behavior
-                                onChanged: (bool value) {
-                                  // Handle toggle switch logic here
-                                },
-                                activeColor: Colors.white,
-                                activeTrackColor:
-                                    const Color.fromARGB(255, 6, 50, 115),
-                                inactiveThumbColor:
-                                    const Color.fromARGB(255, 6, 50, 115),
-                                inactiveTrackColor: Colors.white,
+                      Obx(
+                        () => Row(
+                          children: [
+                            const Text(
+                              'Cash',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 8),
-                          const Text(
-                            'Cash',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
+                            const SizedBox(width: 8),
+                            Container(
+                              width: 50, // Adjust width to match the image
+                              height: 30, // Adjust height to match the image
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                border:
+                                    Border.all(color: Colors.white, width: 2),
+                              ),
+                              child: Transform.scale(
+                                scale:
+                                    0.8, // Adjust scale to fit the container nicely
+                                child: Switch(
+                                  value: saleController.selectedIndex
+                                      .value, // Change this to a variable if you need dynamic behavior
+                                  onChanged: (bool value) {
+                                    saleController.selectedIndex.value =
+                                        !saleController.selectedIndex.value;
+                                    saleController.setSaleFormType();
+                                    log(saleController.selectedSaleType.value);
+                                  },
+                                  activeColor: Colors.white,
+                                  activeTrackColor:
+                                      const Color.fromARGB(255, 6, 50, 115),
+                                  inactiveThumbColor:
+                                      const Color.fromARGB(255, 6, 50, 115),
+                                  inactiveTrackColor: Colors.white,
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 8),
+                            const Text(
+                              'Credit',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                   ],
                 ),

@@ -417,7 +417,16 @@ class _AddSaleItemState extends State<AddSaleItem> {
                         ),
                       ),
                       SizedBox(height: 8.h),
-                      _buildTextField('MRP'),
+                      SizedBox(height: 8.h),
+                      Obx(() {
+                        if (itemSettingsController.enableItemMrp.value) {
+                          return _buildTextField('MRP');
+                        } else {
+                          return const SizedBox
+                              .shrink(); // Returns an empty widget if condition is false
+                        }
+                      }),
+
                       SizedBox(height: 16.h),
                       _buildUpdatedTotalAndTaxesSection(
                           priceDecimalPlace: priceDecimalPlace),

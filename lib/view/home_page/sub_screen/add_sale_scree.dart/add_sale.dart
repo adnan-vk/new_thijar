@@ -25,6 +25,7 @@ class AddSalePage extends StatelessWidget {
             height: 200,
             child: TopBar(
               page: "Sale",
+              saleController: _controller,
             ),
           ),
           Positioned(
@@ -98,7 +99,9 @@ class AddSalePage extends StatelessWidget {
                         ),
                       ),
                       const Divider(),
-                      buildFormContainer(context, controller: _controller),
+                      buildFormContainer(
+                        context,
+                      ),
                       const SizedBox(height: 20),
                       buildAmountSection(controller: _controller),
                       const SizedBox(height: 20),

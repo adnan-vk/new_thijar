@@ -48,6 +48,7 @@ class Data {
   bool? enableItemDiscount;
   bool? enableItemHsn;
   bool? enableItemMrp;
+  bool? enableItemScanner;
   String? createdBy;
   num? commonDecimalPlaces;
   num? quantityDecimalPlaces;
@@ -64,6 +65,7 @@ class Data {
     this.enableDefaultUnit,
     this.defaultUnit,
     this.enableItemCategory,
+    this.enableItemScanner,
     this.enableItemwiseTax,
     this.enableItemwiseDiscount,
     this.enableWholeSalePrice,
@@ -100,6 +102,7 @@ class Data {
         createdBy: json["createdBy"],
         commonDecimalPlaces: json["commonDecimalPlaces"],
         quantityDecimalPlaces: json["quantityDecimalPlaces"],
+        enableItemScanner: json['enableItemScanner'],
         v: json["__v"],
       );
 }

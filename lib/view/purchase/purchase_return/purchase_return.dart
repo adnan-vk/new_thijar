@@ -9,8 +9,8 @@ import 'package:newthijar/view/purchase/payment_out/widgets/widgets.dart';
 import 'package:newthijar/view/top_bar/top_bar.dart';
 import 'package:newthijar/widgets/report_date_widget/report_date_widget.dart';
 
-class PaymentOut extends StatelessWidget {
-  const PaymentOut({super.key});
+class PurchaseReturn extends StatelessWidget {
+  const PurchaseReturn({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class PaymentOut extends StatelessWidget {
               ),
               SizedBox(width: 8.w),
               const Text(
-                "Add Payment Out",
+                "Add Purchase Return",
                 style: TextStyle(color: Colors.white),
               ),
             ],
@@ -64,7 +64,7 @@ class PaymentOut extends StatelessWidget {
             right: 0,
             height: 185,
             child: TopBar(
-              page: "Payment Out",
+              page: "Purchase Return",
             ),
           ),
           Positioned(

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newthijar/constants/colors.dart';
 import 'package:newthijar/constants/money_symbol.dart';
+import 'package:newthijar/controller/transaction_detail_controller/transaction_detail_controller.dart';
 import 'package:newthijar/model/customer_party_model.dart';
 import 'package:newthijar/model/item_model.dart';
 import 'package:newthijar/view/add_new_party/add_new_party.dart';
@@ -122,7 +123,10 @@ Widget buildReceived(String label, String value,
   );
 }
 
-Widget buildFormContainer(context, {controller}) {
+Widget buildFormContainer(
+  context,
+) {
+  final controller = Get.put(TransactionDetailController());
   return Obx(() {
     return Container(
       color: Colors.white,
@@ -575,6 +579,35 @@ Widget buildFormContainer(context, {controller}) {
             );
           }),
           SizedBox(height: 20.h),
+          Obx(() => controller.locationList.isEmpty
+              ? const CircularProgressIndicator()
+              : Container(
+                  // height: 30,
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      hintText: '',
+                      border: OutlineInputBorder(),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    ),
+                    value: controller.selectedLocation.value.isEmpty
+                        ? null
+                        : controller.selectedLocation.value,
+                    items: controller.locationList.map((location) {
+                      return DropdownMenuItem<String>(
+                        value: location,
+                        child: Text(location),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      if (newValue != null) {
+                        controller.selectedLocation.value = newValue;
+                        controller.itemLocationCont.text =
+                            controller.selectedLocation.value;
+                      }
+                    },
+                  ),
+                )),
           controller.itemList.isNotEmpty
               ? Container(
                   width: double.infinity,
@@ -694,33 +727,52 @@ Widget buildFormContainer(context, {controller}) {
                   ],
                 ),
           Center(
-            child: ElevatedButton.icon(
-              onPressed: () {
-                controller.conversionRate.value = 1.0;
-                controller.priceForBaseUnit.value = 0.0;
-                controller.isSecondaryChoosed.value = false;
-                controller.unitNames.clear();
-                controller.secondaryUnitName.value = '';
-                controller.primaryUnitName.value = '';
-                controller.discountContr.text = "0.00";
-                controller.discountAmountContr.text = "0";
-                controller.isEditingItem.value = false;
-                controller.clearItemController();
-                Get.to(() => const AddSaleItem());
-              },
-              icon: const Icon(Icons.add, color: Colors.white),
-              label: const Text("Add Items"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 6, 50, 115),
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      controller.conversionRate.value = 1.0;
+                      controller.priceForBaseUnit.value = 0.0;
+                      controller.isSecondaryChoosed.value = false;
+                      controller.unitNames.clear();
+                      controller.secondaryUnitName.value = '';
+                      controller.primaryUnitName.value = '';
+                      controller.discountContr.text = "0.00";
+                      controller.discountAmountContr.text = "0";
+                      controller.isEditingItem.value = false;
+                      controller.clearItemController();
+                      Get.to(() => const AddSaleItem());
+                    },
+                    icon: const Icon(Icons.add, color: Colors.white),
+                    label: const Text("Add Items"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 6, 50, 115),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 12),
+                    ),
+                  ),
                 ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              ),
+                const SizedBox(width: 8), // Spacing between elements
+                if (itemSettingsController.enableItemScanner.value)
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.qr_code_scanner,
+                      color: Colors.blue,
+                    ),
+                  ),
+              ],
             ),
-          ),
+          )
         ],
       ),
     );
